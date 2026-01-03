@@ -3,19 +3,18 @@
     [TestFixture]
     public class BasicMathTests
     {
-        int a, b, answer;
         [SetUp]
         public void Setup()
         {
-            // Arrange
-            a = 2;
-            b = 3;
-            answer = 5;
+            //Arrange
             TestContext.Out.WriteLine("Test set up is finished");
         }
 
-        [Test]
-        public void Add_TwoNumbers_ReturnsCorrectSum()
+        [TestCase(1,2,3)]
+        [TestCase(2, 3,5)]
+        [TestCase(3, 5,8)]
+
+        public void Add_TwoNumbers_ReturnsCorrectSum(int a, int b, int answer)
         {
             // Act
             TestContext.Out.WriteLine($"Add {a} and {b}");
@@ -28,7 +27,6 @@
         [TearDown]
         public void TearDown()
         {
-            a = b = answer = 0;
             TestContext.Out.WriteLine("Test is completed");
         }
     }
