@@ -7,7 +7,7 @@ namespace NunitPlusExtentReportPractise
     public class BasicMathTests
     {
         public ExtentReports extent;
-
+        public ExtentTest test;
         [OneTimeSetUp]
         public void GlobalSetup()
         {
@@ -34,10 +34,34 @@ namespace NunitPlusExtentReportPractise
             extent.CreateTest(TestContext.CurrentContext.Test.Name);
             // Act
             TestContext.Out.WriteLine($"Add {a} and {b}");
+            
             int result = a + b;
             // Assert
             TestContext.Out.WriteLine($"Verify that answer is {answer}!!");
             Assert.That(answer, Is.EqualTo(result));
+        }
+        
+        [Test]
+        public void Addition_WithLogging()
+        {
+            test = extent.CreateTest(TestContext.CurrentContext.Test.Name);
+            test.Info("Starting addition test");
+            int result = 3+2;
+            Assert.That(5, Is.EqualTo(result));
+            test.Pass("Addition vallidated Successfully");
+        }
+
+        [TestCase(1,5, ExpectedResult =5)]
+        [TestCase(6, 5, ExpectedResult = 30)]
+        [TestCase(12, 5, ExpectedResult = 60)]
+        public int multiplication_WithLogging(int a, int b)
+        {
+            test = extent.CreateTest(TestContext.CurrentContext.Test.Name);
+            test.Info("Starting multiplication test");
+            int product = a * b;
+            test.Info($"Multiply {a} by {b} and Expected answer is {product}");
+            test.Pass("Multiplication vallidated Successfully");
+            return product;
         }
         
         [TearDown]
