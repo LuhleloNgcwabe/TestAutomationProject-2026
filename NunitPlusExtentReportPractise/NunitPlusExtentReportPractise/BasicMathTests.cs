@@ -4,26 +4,19 @@ using AventStack.ExtentReports.Reporter;
 namespace NunitPlusExtentReportPractise
 {
     [TestFixture]
-    public class BasicMathTests
+    public class BasicMathTests:BaseTest
     {
-        public ExtentReports extent;
-        public ExtentTest test;
-        [OneTimeSetUp]
-        public void GlobalSetup()
-        {
-            var reporter = new ExtentSparkReporter("ExtentReport.html");
-            extent = new ExtentReports();
-            extent.AttachReporter(reporter);
-
-            TestContext.Out.WriteLine("Initialize extent report");
-        }
+        //public ExtentReports extent;
+        //public ExtentTest test;
+        
 
 
         [SetUp]
         public void Setup()
         {
             //Arrange
-            TestContext.Out.WriteLine("Test set up is finished");
+            TestContext.Out.WriteLine($"Test set up for : {TestContext.CurrentContext.Test.Name} finished.");
+            test =extent.CreateTest(TestContext.CurrentContext.Test.Name);
         }
 
         [TestCase(1, 2, 3)]
@@ -31,7 +24,6 @@ namespace NunitPlusExtentReportPractise
         [TestCase(3, 5, 8)]
         public void Add_TwoNumbers_ReturnsCorrectSum(int a, int b, int answer)
         {
-            extent.CreateTest(TestContext.CurrentContext.Test.Name);
             // Act
             TestContext.Out.WriteLine($"Add {a} and {b}");
             
@@ -44,7 +36,6 @@ namespace NunitPlusExtentReportPractise
         [Test]
         public void Addition_WithLogging()
         {
-            test = extent.CreateTest(TestContext.CurrentContext.Test.Name);
             test.Info("Starting addition test");
             int result = 6+2;
             Assert.That(5, Is.EqualTo(result));
@@ -56,7 +47,6 @@ namespace NunitPlusExtentReportPractise
         [TestCase(12, 5, ExpectedResult = 61)]
         public int multiplication_WithLogging(int a, int b)
         {
-            test = extent.CreateTest(TestContext.CurrentContext.Test.Name);
             test.Info("Starting multiplication test");
             int product = a * b;
             test.Info($"Multiply {a} by {b} and Expected answer is {product}");
