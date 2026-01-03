@@ -46,14 +46,14 @@ namespace NunitPlusExtentReportPractise
         {
             test = extent.CreateTest(TestContext.CurrentContext.Test.Name);
             test.Info("Starting addition test");
-            int result = 3+2;
+            int result = 6+2;
             Assert.That(5, Is.EqualTo(result));
             test.Pass("Addition vallidated Successfully");
         }
 
         [TestCase(1,5, ExpectedResult =5)]
         [TestCase(6, 5, ExpectedResult = 30)]
-        [TestCase(12, 5, ExpectedResult = 60)]
+        [TestCase(12, 5, ExpectedResult = 61)]
         public int multiplication_WithLogging(int a, int b)
         {
             test = extent.CreateTest(TestContext.CurrentContext.Test.Name);
@@ -65,8 +65,14 @@ namespace NunitPlusExtentReportPractise
         }
         
         [TearDown]
-        public void TearDown()
+        public void AfterEachTest()
         {
+            var status = TestContext.CurrentContext.Result.Outcome.Status;
+            string  message = TestContext.CurrentContext.Result.Message;
+            if (status == NUnit.Framework.Interfaces.TestStatus.Failed)
+            {
+                test.Fail(message);
+            }
             TestContext.Out.WriteLine("Test is completed");
         }
 
