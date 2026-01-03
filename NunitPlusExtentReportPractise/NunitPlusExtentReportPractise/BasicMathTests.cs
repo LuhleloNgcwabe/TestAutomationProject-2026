@@ -3,14 +3,10 @@ using AventStack.ExtentReports.Reporter;
 
 namespace NunitPlusExtentReportPractise
 {
-    [TestFixture]
+    [TestFixture,Ignore("Not part of challenge exercise")]
+    
     public class BasicMathTests:BaseTest
     {
-        //public ExtentReports extent;
-        //public ExtentTest test;
-        
-
-
         [SetUp]
         public void Setup()
         {
