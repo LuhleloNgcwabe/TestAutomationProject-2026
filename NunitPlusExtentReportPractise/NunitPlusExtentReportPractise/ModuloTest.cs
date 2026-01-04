@@ -24,11 +24,10 @@ namespace NunitPlusExtentReportPractise
         public void setUp() {
             test = extent.CreateTest(TestContext.CurrentContext.Test.Name);
             test.Info($"Start remainder tests");
-
-
+            test.AssignAuthor("Luhlelo ngcwabe");
         }
 
-        [TestCase(4, 2, ExpectedResult =0)]
+        [TestCase(4, 2, ExpectedResult =0),Category("smoke")]
         [TestCase(8, 3, ExpectedResult = 2)]
         [TestCase(4, 3, ExpectedResult = 1)]
         [TestCase(20, 7, ExpectedResult = 6)]
@@ -42,6 +41,7 @@ namespace NunitPlusExtentReportPractise
         {
             TestContext.Out.WriteLine($"Start remainder tests");
             test.Info($"Find reminder of {a} modulo {b}");
+            //test.AssignAuthor("Luhlelo Ngcwabe");
             return Modulo.getRemainder(a,b);
         }
 
