@@ -7,7 +7,7 @@ using UserAccountService.Utility;
 
 namespace UserAccountService.Tests
 {
-    [TestFixture]
+    [TestFixture,Explicit("exlude this test fixture to Run practiseTest class")]
     public class UserAccountTests: ExtentManager
     {
         string username;
