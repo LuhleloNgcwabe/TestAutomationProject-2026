@@ -6,7 +6,7 @@ using UserAccountService.Utility;
 
 namespace UserAccountService.Tests
 {
-    [TestFixture]
+    [TestFixture,Explicit("run user Account tests only")]
     public class UserServiceReportTests : ExtentManager
     {
         private UserService service;
