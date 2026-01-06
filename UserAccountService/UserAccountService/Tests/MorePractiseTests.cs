@@ -9,17 +9,13 @@ using System.Text;
 namespace UserAccountService.Tests
 {
     [TestFixture]
-    public class MorePractiseTests
+    public class MorePractiseTests:ExtentManager2
     {
         int num, num2;
-        ExtentReports extent;
-        ExtentTest test;
         [OneTimeSetUp]
-        public void initReport()
+        public void SetUpReport()
         {
-            extent = new ExtentReports();
-            var reporter = new ExtentSparkReporter("ExtentReport.html");
-            extent.AttachReporter(reporter);
+            InitReport();
         }
 
         [SetUp]
@@ -62,7 +58,6 @@ namespace UserAccountService.Tests
         {
             TestContext.Out.WriteLine($"Sum {num} and {num2}");
             test.Log(Status.Info, $"Sum {num} and {num2}");
-            //test.Log(Status.Info, $"Test marked with TestCase attribute does not execute tearDown method");
             return add(num,num2);
             
         }
@@ -73,7 +68,6 @@ namespace UserAccountService.Tests
             int actual = 0;
             test.Info($"Expected value {expected} and Actual value {actual}");
             Assert.Warn("Values do not match, but this is only a warning");
-            //test.Log(Status.Warning, "Warning");
         }
 
         [Test]
@@ -86,22 +80,7 @@ namespace UserAccountService.Tests
         [TearDown]
         public void tearDown()
         {
-            var result = TestContext.CurrentContext.Result;
-            if(result.Outcome.Status == TestStatus.Failed)
-            {
-                test.Fail(result.Message);
-            }
-
-            if(result.Outcome.Status == TestStatus.Skipped)
-            {
-                test.Skip(result.Message??"Skiped");
-            }
-
-            if(result.Outcome.Status == TestStatus.Warning)
-            {
-                test.Warning(result.Message);
-            }
-
+            AssignTestStatus();
             TestContext.Out.WriteLine("Reset instance number variable 0");
             test.Info("Reset instance number variable 0");
             num = 0;
@@ -109,13 +88,12 @@ namespace UserAccountService.Tests
         }
 
         [OneTimeTearDown]
-        public void Flush()
+        public void AfterEachTest()
         {
-            test.Info("Save test execution deatails");
-            extent.Flush();
+            Flush();
         }
 
-        #region testClass
+        #region testFeatures
         public int add(int a, int b)
         {
             return a + b;
