@@ -3,7 +3,7 @@ using AventStack.ExtentReports.Reporter;
 using NUnit.Framework.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace UserAccountService.Tests
@@ -26,43 +26,50 @@ namespace UserAccountService.Tests
             TestContext.Out.WriteLine($"Starting {TestContext.CurrentContext.Test.Name} test");
             test = extent.CreateTest(TestContext.CurrentContext.Test.Name);
             test.Info($"Starting {TestContext.CurrentContext.Test.Name} test");
+            test.AssignDevice("Lenovo");
+            GetTestCategory();
+            GetTestAuthor();
         }
 
-        [Test]
-        public void addTwoNumber()
+
+        [Test, Author("Luhlelo"), Category("smoke")]
+        public void AddTwoNumber()
         {
             TestContext.Out.WriteLine($"Sum {num} and {num2}");
             test.Log(Status.Info, $"Sum {num} and {num2}");
-            Assert.That(add(num,num2),Is.EqualTo(7));
+            Assert.That(Add(num,num2),Is.EqualTo(7));
             
         }
-        [Test]
-        public void addTwoNumbers_Fail()
+        [Test, Author("Zoe")]
+        [Category("smoke")]
+        public void AddTwoNumbers_Fail()
         {
             num = 3;
             test.Info("Intentionally failing test this test");
-            addTwoNumber();
+            AddTwoNumber();
         }
 
-        [Test]
+        [Test, Author("Zoe")]
+        [Category("regression")]
         public void AddtwoNumber_Skipped()
         {
             test.Info("Skipping a test");
             Assert.Ignore("Purpose of this excercise is skip this test and show extent report");
-            add(num,num2);
+            Add(num,num2);
         }
-
+        [Test, Category("regresssion"), Author("Gcobisa")]
         [TestCase(5,5,ExpectedResult =10)]
         [TestCase(-10,5,ExpectedResult =-5)]
-        public int sumNumberFromTestCase(int num,int num2)
+        
+        public int SumNumberFromTestCase(int num,int num2)
         {
             TestContext.Out.WriteLine($"Sum {num} and {num2}");
             test.Log(Status.Info, $"Sum {num} and {num2}");
-            return add(num,num2);
-            
+            return Add(num,num2);   
         }
-        [Test]
-        public void warning()
+        [Test, Author("Luhlelo")]
+        [Category("Sanity")]
+        public void Warning()
         {
             int expected = 4;
             int actual = 0;
@@ -71,14 +78,15 @@ namespace UserAccountService.Tests
         }
 
         [Test]
-        public void vallideAddvalue()
+        [Category("Sanity"),Author("Luhlelo")]
+        public void VallideAddvalue()
         {
             test.Info($"Sum {num} and {num2}");
-            addValues(num,num2);
+            AddValues(num,num2);
             Assert.Warn("Add Value method have a bug");
         }
         [TearDown]
-        public void tearDown()
+        public void TearDown()
         {
             AssignTestStatus();
             TestContext.Out.WriteLine("Reset instance number variable 0");
@@ -94,12 +102,12 @@ namespace UserAccountService.Tests
         }
 
         #region testFeatures
-        public int add(int a, int b)
+        public int Add(int a, int b)
         {
             return a + b;
         }
 
-        public int addValues(int a, int b)
+        public int AddValues(int a, int b)
         {
             return a + a;
         }

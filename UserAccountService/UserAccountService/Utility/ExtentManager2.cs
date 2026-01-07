@@ -18,6 +18,7 @@ namespace UserAccountService
             extent = new ExtentReports();
             var reporter = new ExtentSparkReporter("ExtentReport.html");
             extent.AttachReporter(reporter);
+            
         }
 
         public void AssignTestStatus()
@@ -41,6 +42,23 @@ namespace UserAccountService
             }
         }
 
+        public void GetTestCategory()
+        {
+            var categories = TestContext.CurrentContext.Test.Properties["Category"];
+            foreach (var category in categories)
+            {
+                test.AssignCategory(category.ToString());
+            }
+        }
+
+        public void GetTestAuthor()
+        {
+            var categories = TestContext.CurrentContext.Test.Properties["Author"];
+            foreach (var category in categories)
+            {
+                test.AssignAuthor(category.ToString());
+            }
+        }
         public void Flush()
         {
             test.Info("Save test execution deatails");
