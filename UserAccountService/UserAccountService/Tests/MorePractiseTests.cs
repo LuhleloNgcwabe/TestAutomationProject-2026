@@ -85,6 +85,17 @@ namespace UserAccountService.Tests
             AddValues(num,num2);
             Assert.Warn("Add Value method have a bug");
         }
+
+        [Test, Retry(3), Author("Luhlelo")]
+        [Category("sanity")]
+        public void TestRetryAttribute()
+        {
+            int randomNumber = new Random().Next(1, 4);
+            int num2 = 2;
+            test.Info($"Compare {randomNumber} and {num2}");
+            Assert.That(randomNumber, Is.EqualTo(num2));
+        }
+
         [TearDown]
         public void TearDown()
         {
@@ -94,6 +105,7 @@ namespace UserAccountService.Tests
             num = 0;
             num2 = 0;
         }
+
 
         [OneTimeTearDown]
         public void AfterEachTest()
