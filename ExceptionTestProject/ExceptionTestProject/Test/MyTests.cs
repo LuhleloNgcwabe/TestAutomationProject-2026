@@ -36,7 +36,7 @@ namespace ExceptionTestProject.Test
         [Test, Category("regression")]
         public void DoWork_WhenInvalid_ThrowsInvalidOperationException()
         {
-            Assert.Throws<InvalidOperationException>(() => methods.DoWork(false));
+             Assert.Throws<InvalidOperationException>(() => methods.DoWork(false));
         }
 
         [Test, Category("regression")]
@@ -78,7 +78,6 @@ namespace ExceptionTestProject.Test
         [Category("smoke")]
         public void RetryExampleTest()
         {
-            //Assert.Ignore("This is not part of testing");
             try
             {
                 //Thsi test 2 fails on the first 2 attempt. and it passes on third attempt
@@ -91,8 +90,7 @@ namespace ExceptionTestProject.Test
                 }
             }
             catch (Exception ex) { 
-                test.Fail(ex);
-                test.Fail(ex.Message);
+                test.Fail(ex).AddScreenCaptureFromPath("screenshot.png");
                 throw;
             }
             
@@ -109,54 +107,37 @@ namespace ExceptionTestProject.Test
                 Assert.Fail("For retry demo");
             }
             catch (Exception ex) {
+                test.Fail(ex).AddScreenCaptureFromPath("screenshot.png");
                 test.Fail($"Exception Type: {ex.GetType().Name}");
-                test.Fail($"Message :{ex.Message}");
-                test.Fail(ex.StackTrace);
                 throw;
             }
             
         }
 
-
-
-        //[TearDown]
-        //public void FinaltestStatus()
-        //{
-        //    var results = TestContext.CurrentContext.Result;
-
-        //    switch (results.Outcome.Status)
-        //    {
-        //        case TestStatus.Passed:
-        //            break;
-        //        case TestStatus.Failed:
-        //            test.Fail(results.Message);
-        //            test.Fail(results.StackTrace);
-        //            break;
-        //        case TestStatus.Skipped:
-        //            test.Skip(results.Message);
-        //            break;
-        //        case TestStatus.Warning:
-        //            test.Warning(results.Message);
-        //            break;
-
-        //    }
-
-        //}
-        [Test]
-        public void FailingTest()
+        [TearDown]
+        public void FinaltestStatus()
         {
-            try
+            var results = TestContext.CurrentContext.Result;
+
+            switch (results.Outcome.Status)
             {
-                //test = extent.CreateTest("Failing test");
-                Assert.Fail("Intentional failure");
+                case TestStatus.Passed:
+                    break;
+                case TestStatus.Failed:
+                    test.Fail(results.Message);
+                    test.Fail(results.StackTrace);
+                    break;
+                case TestStatus.Skipped:
+                    test.Skip(results.Message);
+                    break;
+                case TestStatus.Warning:
+                    test.Warning(results.Message);
+                    break;
+
             }
-            catch (Exception ex) { 
-                test.Fail(ex.ToString());
-                test.Fail(ex.Message);
-                test.Fail(ex.GetType().Name);
-            }
-            
+
         }
+     
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
