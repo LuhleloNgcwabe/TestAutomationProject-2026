@@ -24,6 +24,11 @@ namespace ExceptionTestProject.Model
             if (input.Length < 3)
                 throw new ArgumentException("Input too short");
         }
-            
+
+    }
+
+    public class OrderProcessingException:Exception
+    {
+        public OrderProcessingException(string msg):base(msg) { }
     }
 }

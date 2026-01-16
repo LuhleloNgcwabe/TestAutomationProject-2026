@@ -21,6 +21,8 @@ namespace ExceptionTestProject.Test
         {
             extent = new ExtentReports();
             var reporter = new ExtentSparkReporter("ExtentReport.html");
+            //reporter.Config.Theme = AventStack.ExtentReports.Reporter.Config.Theme.Dark;
+            reporter.Config.DocumentTitle = "My Report";
             extent.AttachReporter(reporter);
         }
 
@@ -31,41 +33,46 @@ namespace ExceptionTestProject.Test
             methods = new FunctionClass();
             string testName = TestContext.CurrentContext.Test.Name;
             test = extent.CreateTest(testName);
+            var categories = TestContext.CurrentContext.Test.Properties["Category"];
+            foreach (var category in categories)
+            {
+                test.AssignCategory(category.ToString());
+            }
         }
 
-        [Test, Category("regression")]
+        [Test, Category("regression"),Order(0)]
         public void DoWork_WhenInvalid_ThrowsInvalidOperationException()
         {
              Assert.Throws<InvalidOperationException>(() => methods.DoWork(false));
         }
 
-        [Test, Category("regression")]
+        [Test, Category("regression"), Order(0)]
         public void DoWork_throwException_WithCorrectMessage()
         {
             var ex = Assert.Throws<InvalidOperationException>(() => methods.DoWork(false));
             Assert.That(ex.Message, Is.EqualTo("Invalid operation. The method call is invalid for the objects current state."));
         }
 
-        [Test, Category("regression")]
+        [Test, Category("regression"), Order(0)]
         public void DoWork_WhenValid_DoesNotThrow()
         {
             Assert.Ignore("Method is not yet implemented.");
             Assert.DoesNotThrow(() => methods.DoWork(true));
         }
 
-        [Test, Category("regression")]
+        [Test, Category("regression"), Order(0)]
         public void process_WhenNull_throwsArgumentNullException()
         {
             //Assert.Throws<ArgumentNullException>(() => methods.Process(null));
             Assert.That(() => methods.Process(null), Throws.TypeOf<ArgumentNullException>());
         }
-        [Test, Category("regression")]
+        [Test, Category("regression"), Order(0)]
         public void process_WhenTooShort_ThrowsArgumentException()
         {
             //Assert.Throws<ArgumentException>(() => methods.Process("ab"));
             Assert.That(() => methods.Process("ab"), Throws.TypeOf<ArgumentException>());
         }
-        [Test, Category("regression")]
+        [Test, Category("regression"), Order(0)]
         public void process_WhenGivenCorrectValue_DoesNotThrow()
         {
             Assert.Ignore("this is not part of the exercises");
@@ -114,10 +121,21 @@ namespace ExceptionTestProject.Test
             
         }
 
+        
+        [TestCase(""),]
+        [TestCase("as")]
+        public void InvalidInputs_throwException(string input)
+        {
+            Assert.Throws<ArgumentException>(() => methods.Process(input));
+        }
+
         [TearDown]
         public void FinaltestStatus()
         {
             var results = TestContext.CurrentContext.Result;
+            //Record Retries used
+            int retries = TestContext.CurrentContext.CurrentRepeatCount;
+            test.Info($"Retries used: {retries}");
 
             switch (results.Outcome.Status)
             {
@@ -133,7 +151,6 @@ namespace ExceptionTestProject.Test
                 case TestStatus.Warning:
                     test.Warning(results.Message);
                     break;
-
             }
 
         }
