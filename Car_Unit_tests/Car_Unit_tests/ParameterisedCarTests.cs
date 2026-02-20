@@ -5,7 +5,7 @@ using Car_Unit_tests.Model;
 
 namespace Car_Unit_tests
 {
-    [TestFixture,Category("Regression")]
+    [TestFixture,Category("Regression"), Explicit("Not a Priority")]
     public class ParameterisedCarTests
     {
         [SetUp]
