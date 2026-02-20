@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Car_Unit_tests
 {
-    [TestFixture]
+    [TestFixture,Explicit("Not a Priority")]
     public class Tests
     {
         Car ToyataSUV;

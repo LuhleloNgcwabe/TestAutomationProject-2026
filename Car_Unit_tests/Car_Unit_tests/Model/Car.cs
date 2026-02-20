@@ -9,7 +9,7 @@ namespace Car_Unit_tests.Model
         public string Make { get; set; }
         public string Model { get; set; }
         public int Year { get; set; }
-        public double Speed { get; private set; }
+        public double Speed { get; set; }
         public bool IsEngineRunning { get; private set; }
 
         public bool TrunkIsOpen { get; set; }
