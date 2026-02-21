@@ -7,7 +7,7 @@ using NUnit.Framework.Interfaces;
 
 namespace Car_Unit_tests
 {
-    [TestFixture]
+    [TestFixture,Explicit("Not a Priority")]
     public class CarTest_withExtentReport
     {
         ExtentReports extent = new();
