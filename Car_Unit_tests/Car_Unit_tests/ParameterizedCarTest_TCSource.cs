@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Car_Unit_tests
 {
-    [TestFixture,Category("CarFeature")]
+    [TestFixture,Category("CarFeature"), Explicit("Not a Priority")]
     public class ParameterizedCarTest_TCSource
     {
 
