@@ -4,7 +4,7 @@ using OpenQA.Selenium;
 
 namespace OpenCart.App.PageObjects
 {
-    public class RegisterPage
+    public class RegisterPage :BasePage
     {
         #region InputFields
         //public IWebDriver driver;
@@ -12,11 +12,10 @@ namespace OpenCart.App.PageObjects
         public By txt_LastName = By.XPath("//*[contains(@name,'lastname')]");
         public By txt_Email = By.XPath("//*[contains(@name,'email')]");
         public By txt_Password = By.XPath("//*[@id='input-password']");
+        public By chb_Subscribe = By.CssSelector("#input-newsletter");
         public By ckb_AgreeTermsAndCond = By.XPath("//input[@name='agree']");
-        public By btn_Continue = By.XPath("//*[@class='btn btn-primary']");
         public By msgConfirmation = By.XPath("//h1[contains(text(),'Your Account Has Been Created!')]");                                                                                           
         public By password_vallidationLabel = By.XPath("//*[contains(@class,'invalid-feedback d-block')]");
-
 
         public void EnterFirstName(IWebDriver driver, string name)
         {
@@ -38,14 +37,14 @@ namespace OpenCart.App.PageObjects
             DriverHelper.SetElementText(driver, txt_Password, password);
         }
 
+        public void ClickSubscribeToNewsletter(IWebDriver driver)
+        {
+            DriverHelper.ClickElement(driver, chb_Subscribe);
+        }
+
         public void AcceptTerms(IWebDriver driver)
         {
             DriverHelper.ClickElement(driver, ckb_AgreeTermsAndCond);
-        }
-
-        public void ClickContinue(IWebDriver driver)
-        {
-            DriverHelper.ClickElement(driver, btn_Continue);
         }
 
         public string GetConfirmationMessage(IWebDriver driver)

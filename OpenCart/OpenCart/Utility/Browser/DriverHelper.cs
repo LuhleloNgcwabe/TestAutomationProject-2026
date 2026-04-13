@@ -26,7 +26,6 @@ namespace OpenCart.Utility.Browser
             element.SendKeys(text);
         }
 
-
         public static IWebElement GetElement(IWebDriver driver, By locator)
         {
             IWebElement element = WaitForElementToBeVisible(driver,locator,TimeSpan.FromSeconds(30));
