@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Remote;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,9 +10,16 @@ namespace OpenCart.Utility.Browser
     public class WebDriverFactory
     {
         IWebDriver driver;
-        public WebDriverFactory() 
+        //public WebDriverFactory() 
+        //{
+        //    driver = new ChromeDriver();
+        //}
+
+        public WebDriverFactory()
         {
-            driver = new ChromeDriver();
+            driver = new RemoteWebDriver(
+            new Uri("http://localhost:4444"),
+            new ChromeOptions());
         }
 
         public IWebDriver getDriver()
